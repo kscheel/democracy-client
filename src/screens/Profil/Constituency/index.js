@@ -6,7 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { graphql, compose } from 'react-apollo';
 
 // Components
-import constituencies from '../../../../assets/constituencies';
+// import constituencies from '../../../../assets/constituencies';
 
 // constituencies plz list
 import constituenciesList from '../../../../assets/constituencies-list.json';
@@ -114,9 +114,10 @@ class Constituency extends Component {
   };
 
   getConstituency = wk => {
-    const DynComp = constituencies[`${wk}`];
+    return null;
+    const DynComp = constituencies[`${wk}`].default;
     return (
-      <DynComp.default
+      <DynComp
         width={60}
         height={36}
         childProps={{ fill: 'none', stroke: '#000', strokeWidth: '2%' }}

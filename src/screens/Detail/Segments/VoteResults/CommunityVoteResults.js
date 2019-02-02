@@ -4,7 +4,7 @@ import { graphql, Query } from 'react-apollo';
 import { ActivityIndicator, Dimensions, Platform } from 'react-native';
 import Swiper from 'react-native-swiper';
 import styled from 'styled-components/native';
-import constituencySvgs from '../../../../../assets/constituencies';
+// import constituencySvgs from '../../../../../assets/constituencies';
 // Components
 import GermanySvgComponent from '../../../../../assets/svgs/GermanySVG';
 import ChartLegend from '../../../../components/Charts/ChartLegend';
@@ -73,9 +73,7 @@ class CommunityVoteResults extends Component {
         },
       ];
 
-      const DynSvgComp = !comunnityResults.constituency
-        ? GermanySvgComponent
-        : constituencySvgs[comunnityResults.constituency].default;
+      const DynSvgComp = !comunnityResults.constituency ? GermanySvgComponent : null; //constituencySvgs[comunnityResults.constituency].default;
 
       return (
         <PieChartWrapper key={comunnityResults.constituency ? 'goverment' : 'constituency'}>
@@ -85,7 +83,7 @@ class CommunityVoteResults extends Component {
               : `Wahlkreis ${comunnityResults.constituency}`}
           </CommunitySegmentText>
           <SvgWrapper>
-            <DynSvgComp
+            {/* <DynSvgComp
               width={60}
               height={36}
               childProps={{
@@ -93,7 +91,7 @@ class CommunityVoteResults extends Component {
                 stroke: 'none',
                 strokeWidth: !comunnityResults.constituency ? '1%' : '2%',
               }}
-            />
+            /> */}
           </SvgWrapper>
           <PieChart data={data} label={`${votes}`} subLabel="Abstimmende" />
           <ChartLegend data={data} />
