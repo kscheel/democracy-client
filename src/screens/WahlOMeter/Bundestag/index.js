@@ -10,9 +10,10 @@ import Header from '../Header';
 import ChartNote from '../ChartNote';
 import VotedProceduresList from '../VotedProceduresList';
 
-const Wrapper = styled.ScrollView`
-  background-color: #fff;
+const Wrapper = styled.View`
+  background-color: #ffa;
   padding-top: 18;
+  flex: 1;
 `;
 
 const ChartWrapper = styled.View`
@@ -55,14 +56,14 @@ const Bundestag = ({
   return (
     <Wrapper
       removeClippedSubviews
-      onScroll={({ nativeEvent }) => {
-        if (isCloseToBottom(nativeEvent)) {
-          if (this.procedureList.fetchMore) this.procedureList.fetchMore();
-        }
-      }}
+      // onScroll={({ nativeEvent }) => {
+      //   if (isCloseToBottom(nativeEvent)) {
+      //     if (this.procedureList.fetchMore) this.procedureList.fetchMore();
+      //   }
+      // }}
       scrollEventThrottle={4000}
     >
-      <Header totalProcedures={totalProcedures} votedProceduresCount={votedProceduresCount} />
+      {/* <Header totalProcedures={totalProcedures} votedProceduresCount={votedProceduresCount} />
       <ChartWrapper>
         <PieChart
           data={data}
@@ -75,8 +76,9 @@ const Bundestag = ({
       <ChartNote>
         Hohe Übereinstimmungen Ihrer Stellungnahmen mit dem Bundestag bedeuten eine inhaltliche Nähe
         zu den Regierungsfraktionen
-      </ChartNote>
+      </ChartNote> */}
       <VotedProceduresList
+        chartData={data}
         onItemClick={onProcedureListItemClick}
         ref={el => (this.procedureList = el)}
       />

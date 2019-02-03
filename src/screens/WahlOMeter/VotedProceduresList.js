@@ -2,10 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import styled from 'styled-components/native';
+import { Dimensions } from 'react-native';
 
 // Components
 import ListItem from '../VoteList/ListItem';
 import ListSectionHeader from '../../components/ListSectionHeader';
+import PieChart from '../../components/Charts/PieChart';
+import ChartLegend from '../../components/Charts/ChartLegend';
+import Header from './Header';
+import ChartNote from './ChartNote';
 
 // GraphQL
 import PROCEDURES_WITH_VOTE_RESULTS from '../../graphql/queries/proceduresByIdHavingVoteResults';
@@ -15,7 +20,16 @@ const ActivityIndicator = styled.ActivityIndicator`
   padding-bottom: 18;
 `;
 
-const ProcedureList = styled.View`
+const ChartWrapper = styled.View`
+  padding-horizontal: 18;
+  padding-top: 18;
+  align-self: center;
+  width: 100%;
+  max-width: ${() =>
+    Math.min(400, Dimensions.get('window').width, Dimensions.get('window').height)};
+`;
+
+const ProcedureList = styled.FlatList`
   padding-bottom: 18;
 `;
 
@@ -30,7 +44,7 @@ class VotedProceduresList extends Component {
   };
 
   render() {
-    const { onItemClick } = this.props;
+    const { onItemClick, chartData } = this.props;
     const { hasMore } = this.state;
     return (
       <Query
@@ -71,17 +85,38 @@ class VotedProceduresList extends Component {
           };
 
           return (
-            <ProcedureList ref={this.myRef}>
-              <ListSectionHeader title="Abstimmungen" />
-              {data.proceduresByIdHavingVoteResults.procedures.map(item => (
-                <ListItem
-                  key={item.procedureId}
-                  item={item}
-                  onClick={() => onItemClick({ item })}
-                />
-              ))}
-              {hasMore && <ActivityIndicator />}
-            </ProcedureList>
+            <ProcedureList
+              ref={this.myRef}
+              data={[{ key: 123 }, ...data.proceduresByIdHavingVoteResults.procedures]}
+              renderItem={({ item }) => {
+                if (item.key) {
+                  return (
+                    <>
+                      <ChartWrapper>
+                        <PieChart
+                          data={chartData}
+                          colorScale={['#EAA844', '#B1B3B4']}
+                          label="Bundestag"
+                          subLabel="Wahl-O-Meter"
+                        />
+                      </ChartWrapper>
+                      <ChartLegend data={chartData} />
+                      <ChartNote>
+                        Hohe Übereinstimmungen Ihrer Stellungnahmen mit dem Bundestag bedeuten eine
+                        inhaltliche Nähe zu den Regierungsfraktionen
+                      </ChartNote>
+                    </>
+                  );
+                }
+                return (
+                  <ListItem
+                    key={item.procedureId}
+                    item={item}
+                    onClick={() => onItemClick({ item })}
+                  />
+                );
+              }}
+            />
           );
         }}
       </Query>
