@@ -87,6 +87,7 @@ class VotedProceduresList extends Component {
           return (
             <ProcedureList
               ref={this.myRef}
+              onEndReached={this.fetchMore}
               data={[{ key: 123 }, ...data.proceduresByIdHavingVoteResults.procedures]}
               renderItem={({ item }) => {
                 if (item.key) {

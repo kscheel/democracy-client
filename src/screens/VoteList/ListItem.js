@@ -21,7 +21,6 @@ class ListItem extends Component {
 
     if (
       title !== item.title ||
-      tags !== item.tags ||
       date !== item.date ||
       procedureId !== item.procedureId ||
       activityIndex !== item.activityIndex.activityIndex ||
